@@ -3,8 +3,7 @@
     "config:base",
     ":dependencyDashboard",
     ":pinDependencies",
-    ":timezone(Europe/Amsterdam)",
-    ":semanticPrefixFix"
+    ":timezone(Europe/Amsterdam)"
   ],
   "ignorePresets": [":prHourlyLimit2"],
   "lockFileMaintenance": {
