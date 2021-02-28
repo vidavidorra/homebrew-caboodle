@@ -1,31 +1,26 @@
-import { Formula, Version, Versions } from '../formula';
+import { Formula, Version } from '../formula';
 
-interface FormulaVersion {
+const versions: {
+  semantic: string;
   release: string;
   version: string;
   architecture: string;
-}
+}[] = [
+  {
+    semantic: '7.2.1',
+    release: '7-2017q4',
+    version: '7-2017-q4-major',
+    architecture: 'linux',
+  },
+  {
+    semantic: '9.3.1',
+    release: '9-2020q2',
+    version: '9-2020-q2-update',
+    architecture: 'x86_64-linux',
+  },
+];
 
 class ArmNoneEabiGcc extends Formula {
-  private readonly _versions: ReadonlyMap<string, FormulaVersion> = new Map([
-    [
-      '7.2.1',
-      {
-        release: '7-2017q4',
-        version: '7-2017-q4-major',
-        architecture: 'linux',
-      },
-    ],
-    [
-      '9.3.1',
-      {
-        release: '9-2020q2',
-        version: '9-2020-q2-update',
-        architecture: 'x86_64-linux',
-      },
-    ],
-  ]);
-
   constructor() {
     super(
       'GNU Arm Embedded Toolchain',
@@ -34,27 +29,22 @@ class ArmNoneEabiGcc extends Formula {
     );
   }
 
-  versions(): Versions {
-    const versions = new Set(this._versions.keys());
-    if (versions.size !== this._versions.size) {
-      throw new Error("'_versions' MUST NOT contain duplicates");
-    }
-
-    return versions;
-  }
-
   url(version: Version): string {
-    this.validateVersion(version);
+    this.validateExists(version);
 
-    const v = this._versions.get(version);
-    if (!v) {
-      throw new Error(`Version '${version}' not in 'versions()'`);
+    const v = versions.find((e) => e.semantic === version);
+    if (v === undefined) {
+      throw new Error(`Version '${version}' MUST be in 'versions()'`);
     }
 
     return [
       'https://developer.arm.com/-/media/Files/downloads/gnu-rm/',
       `${v.release}/gcc-arm-none-eabi-${v.version}-${v.architecture}.tar.bz2`,
     ].join('');
+  }
+
+  protected semanticVersions(): Version[] {
+    return versions.map((e) => e.semantic);
   }
 }
 

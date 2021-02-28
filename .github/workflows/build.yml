@@ -99,6 +99,7 @@ jobs:
           node-version: 14
       - name: Install project
         run: npm ci --ignore-scripts
+      # Release disabled until ready for first release.
       # - name: Release
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.SEMANTIC_RELEASE_GITHUB_TOKEN }}
