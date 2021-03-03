@@ -1,4 +1,5 @@
 import { Arguments as CliArguments, Command, environment } from '..';
+import { logger } from '../../logger';
 
 interface Arguments extends CliArguments {
   existing?: boolean;
@@ -30,7 +31,8 @@ const command: Command<CliArguments, Arguments> = {
     });
   },
   handler: (args) => {
-    console.log(nestedCommandName, args);
+    logger.info(args, 'CLI list arguments');
+    logger.debug('debug');
   },
 };
 

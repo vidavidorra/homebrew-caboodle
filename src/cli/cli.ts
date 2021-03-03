@@ -1,8 +1,9 @@
 import * as commands from './commands';
 import { Arguments, schema } from './arguments';
+import { joi, rfc2119KeyWordsToUpperCase } from '../helpers';
 import yargs, { CommandModule } from 'yargs';
 import { environment } from './environment';
-import { rfc2119KeyWordsToUpperCase } from '../helpers';
+import { setLevel } from '../logger';
 
 function run(args: string[]): void {
   yargs
@@ -30,6 +31,13 @@ function run(args: string[]): void {
         type: 'string',
         requiresArg: true,
       },
+      logLevel: {
+        description: 'Log level (verbosity)',
+        default: 'info',
+        type: 'string',
+        choices: ['trace', 'debug', 'info'],
+        requiresArg: true,
+      },
       help: {
         alias: 'h',
       },
@@ -43,7 +51,9 @@ function run(args: string[]): void {
         allowUnknown: true,
       });
 
-      if (validation.error) {
+      if (joi.isValid<Arguments>(validation, argv)) {
+        setLevel(argv.logLevel);
+      } else if (validation.error !== undefined) {
         throw new Error(
           [
             'Invalid argument(s):',
