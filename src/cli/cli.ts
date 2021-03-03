@@ -1,19 +1,16 @@
 import * as commands from './commands';
-import * as environment from './environment';
 import { Arguments, schema } from './arguments';
 import yargs, { CommandModule } from 'yargs';
-import dotenv from 'dotenv';
+import { environment } from './environment';
 import { rfc2119KeyWordsToUpperCase } from '../helpers';
 
 function run(args: string[]): void {
-  dotenv.config(); // Load `.env` file contents into `process.env`.
-
   yargs
     .scriptName('homebrew-caboodle')
     .strict()
     .env(environment.prefix)
     .wrap(Math.min(120, yargs.terminalWidth()))
-    .epilogue(environment.information())
+    .epilogue(environment.argumentSourceMessage())
     .demandCommand()
     /**
      * The first command need a type assertion to make the command module

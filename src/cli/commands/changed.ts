@@ -11,7 +11,7 @@ const command: Command<CliArguments, Arguments> = {
   describe: 'Get formulae changed between Git commits',
   builder: (yargs) => {
     return yargs
-      .epilogue(environment.information())
+      .epilogue(environment.argumentSourceMessage())
       .positional('startCommit', {
         describe: 'Start commit SHA',
         type: 'string',

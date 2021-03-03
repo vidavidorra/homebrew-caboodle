@@ -9,7 +9,7 @@ const command: Command<CliArguments, Arguments> = {
   command: 'create',
   describe: 'Create formulae from their configurations',
   builder: (yargs) => {
-    return yargs.epilogue(environment.information()).options({
+    return yargs.epilogue(environment.argumentSourceMessage()).options({
       update: {
         alias: 'u',
         describe: 'Update existing formulae from their configurations as well',

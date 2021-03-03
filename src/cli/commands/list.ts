@@ -11,7 +11,7 @@ const command: Command<CliArguments, Arguments> = {
   command: 'list',
   describe: 'List formulae',
   builder: (yargs) => {
-    return yargs.epilogue(environment.information()).options({
+    return yargs.epilogue(environment.argumentSourceMessage()).options({
       existing: {
         alias: 'e',
         describe: 'List existing formulae',
